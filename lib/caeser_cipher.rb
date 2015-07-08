@@ -4,21 +4,24 @@ class CaeserCipher
   end
 
   def cipher
-    @message.tr(plain_alphabets, rotated_alphabets)
-  end
-
-  def rotated_alphabets
-    alphabets.rotate(@shift).join
-  end
-
-  def plain_alphabets
-    alphabets.join
+    @message.tr(
+      alphabets(shift: 0).join,
+      alphabets(shift: @shift).join
+    )
   end
 
   private
 
-  def alphabets
-    ('a'..'z').to_a + ('A'..'Z').to_a
+  def alphabets(shift: 0)
+    small_caps.rotate(shift) + large_caps.rotate(shift)
+  end
+
+  def small_caps
+    ('a'..'z').to_a
+  end
+
+  def large_caps
+    small_caps.map(&:upcase)
   end
 
   def parse(text)
@@ -31,7 +34,7 @@ class CaeserCipher
   end
 end
 
-puts CaeserCipher.new(source: DATA).cipher
+# puts CaeserCipher.new.cipher
 
 __END__
 11
