@@ -1,4 +1,6 @@
 class Matrix
+  attr_reader :size, :content
+
   def self.pop_top_matrix(lines)
     size = lines.shift.split.map(&:to_i)
     content = lines.shift(size.first)
@@ -12,7 +14,26 @@ class Matrix
   end
 
   def =~(other)
-    'hey'
+    y, x = other.size
+
+    search_origin(other.content.first).each.any? do |origin_y, origin_x|
+      self.class.new(
+        size: [other.size],
+        content:  @content[origin_y, y].map { |line| line[origin_x, x] }
+      ) == other
+    end
+  end
+
+  def ==(other)
+    @content == other.content
+  end
+
+  def search_origin(pattern_head)
+    @content.each_with_index.map do |line, index|
+      column = line =~ /#{pattern_head}/
+      column ? [index, column] : nil
+    end
+      .compact
   end
 end
 
@@ -25,7 +46,9 @@ class GridSearch
   end
 
   def result
-    @test_cases.map { |grid, pattern| grid =~ pattern }
+    @test_cases
+      .map { |grid, pattern| grid =~ pattern }
+      .map { |status| status ? 'YES' : 'NO' }
   end
 
   def number_of_test_cases
@@ -41,8 +64,6 @@ class GridSearch
     end
   end
 end
-
-p GridSearch.new(source: DATA).result
 
 __END__
 2
@@ -70,7 +91,7 @@ __END__
 252802633388782
 502771484966748
 075975207693780
-511799789562806
+511779789562806
 404007454272504
 549043809916080
 962410809534811

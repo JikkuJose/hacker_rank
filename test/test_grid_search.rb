@@ -4,7 +4,7 @@ require 'grid_search'
 class TestGridSearch < Minitest::Test
   def setup
     @given_input = DATA
-    @given_output = "YES\nNO"
+    @given_output = %w(YES NO)
   end
 
   def test_given
@@ -38,9 +38,9 @@ __END__
 252802633388782
 502771484966748
 075975207693780
-511799789562806
+511779789562806
 404007454272504
-549043809916080
+549043807916080
 962410809534811
 445893523733475
 768705303214174
