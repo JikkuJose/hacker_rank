@@ -3,12 +3,11 @@ require 'grid_search'
 
 class TestGridSearch < Minitest::Test
   def setup
-    @given_input = DATA
     @given_output = %w(YES NO)
   end
 
   def test_given
-    assert_equal @given_output, GridSearch.new(source: @given_input).result
+    assert_equal @given_output, GridSearch.new.result
   end
 end
 
