@@ -3,6 +3,7 @@ require 'fraud_prevention'
 
 class TestOrderAnalyzer < Minitest::Test
   def setup
+    @given_input = DATA
     @given_output = '1,2'
   end
 
