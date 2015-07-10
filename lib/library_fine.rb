@@ -1,12 +1,8 @@
 require 'date'
 
 class Library
-  def initialize(source: STDIN)
+  def initialize(source: DATA)
     @returned_date, @due_date = parse_dates(source.read)
-  end
-
-  def parse_dates(text)
-    text.split("\n").map { |date| Date.strptime(date, '%d %m %Y') }
   end
 
   def fine
@@ -20,6 +16,12 @@ class Library
     else
       10_000
     end
+  end
+
+  private
+
+  def parse_dates(text)
+    text.split("\n").map { |date| Date.strptime(date, '%d %m %Y') }
   end
 
   def same_month?
@@ -43,4 +45,4 @@ class Library
   end
 end
 
-puts Library.new.fine
+# puts Library.new(source: STDIN).fine
