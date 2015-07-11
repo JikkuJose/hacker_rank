@@ -8,8 +8,8 @@ class Matrix
       .map { |layer| layer.map { |row, column| @data[row][column] } }
       .map { |layer| layer.rotate(anti_clockwise) }
 
-    coordinates.zip(rotated.flatten).each do |(r, c), n|
-      @data[r][c] = n
+    coordinates.zip(rotated.flatten).each do |(row, column), n|
+      @data[row][column] = n
     end
 
     self
