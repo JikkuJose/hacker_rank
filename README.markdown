@@ -15,3 +15,4 @@ Repo holding my solutions of HackerRank problems.
 * `plus_minus`
 * `staircase`
 * `time_conversion`
+* `matrix_rotator`
