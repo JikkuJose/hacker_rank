@@ -1,7 +1,6 @@
 class Matrix
   def initialize(two_d_array: nil)
     @data = two_d_array
-    @new_data = @data.dup
   end
 
   def rotate!(anti_clockwise: 0)
@@ -10,14 +9,14 @@ class Matrix
       .map { |layer| layer.rotate(anti_clockwise) }
 
     coordinates.zip(rotated.flatten).each do |(r, c), n|
-      @new_data[r][c] = n
+      @data[r][c] = n
     end
 
     self
   end
 
   def to_s
-    @new_data
+    @data
       .map { |row| row.join(' ') }
       .join("\n")
   end
