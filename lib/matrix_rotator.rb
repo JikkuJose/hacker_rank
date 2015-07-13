@@ -35,36 +35,27 @@ class Matrix
 
   def layers
     number_of_layers.times.map do |index|
-      top(index) + right(index) + bottom(index) + left(index)
+      mapping(index).each_with_object([]) do |(length, lambda), accumilator|
+        accumilator.push(*side(index, length, &lambda))
+      end
     end
   end
 
-  def horizontal_segment(index)
-    (width - (2 * index) - 1).times
+  def segment(index, length)
+    (length - (2 * index) - 1).times
   end
 
-  def vertical_segment(index)
-    (height - (2 * index) - 1).times
+  def mapping(index)
+    [
+      [width, lambda { |w| [index, w + index] }],
+      [height, lambda { |h| [h + index, width - index - 1] }],
+      [width, lambda { |w| [height - index - 1, width - index - w - 1] }],
+      [height, lambda { |h| [height - 1 - index - h, index] }],
+    ]
   end
 
-  def top(index)
-    horizontal_segment(index)
-      .map { |w| [index, w + index] }
-  end
-
-  def right(index)
-    vertical_segment(index)
-      .map { |h| [h + index, width - index - 1] }
-  end
-
-  def bottom(index)
-    horizontal_segment(index)
-      .map { |w| [height - index - 1, width - index - w - 1] }
-  end
-
-  def left(index)
-    vertical_segment(index)
-      .map { |h| [height - 1 - index - h, index] }
+  def side(index, length, &block)
+    segment(index, length).map(&block)
   end
 
   def number_of_layers
