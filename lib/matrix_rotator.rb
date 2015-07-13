@@ -21,16 +21,22 @@ class Matrix
       .join("\n")
   end
 
-  def coordinates
-    layers.each_with_object([]) { |layer, a| a.push(*layer) }
-  end
-
   def height
     @height ||= @data.length
   end
 
   def width
     @width ||= @data.first.length
+  end
+
+  private
+
+  def number_of_layers
+    [height, width].min / 2
+  end
+
+  def coordinates
+    layers.each_with_object([]) { |layer, a| a.push(*layer) }
   end
 
   def layers
@@ -56,10 +62,6 @@ class Matrix
 
   def side(index, length, &block)
     segment(index, length).map(&block)
-  end
-
-  def number_of_layers
-    [height, width].min / 2
   end
 end
 
