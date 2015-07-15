@@ -30,22 +30,38 @@ class TimeInWords
   def word
     case @minute
     when 0
-      WORDS[@hour] + " o' clock"
+      hour + " o' clock"
     when 1
-      'one minute past ' + WORDS[@hour]
-    when 1..20
-      WORDS[@minute] + ' minutes past ' + WORDS[@hour]
+      'one minute past ' + hour
     when 15
-      'quarter past ' + WORDS[@hour]
+      'quarter past ' + hour
+    when 2..20
+      minute + ' minutes past ' + hour
     when 21..29
-      'twenty ' + WORDS[@minute - 20] + ' minutes past ' + WORDS[@hour]
+      'twenty ' + WORDS[@minute - 20] + ' minutes past ' + hour
     when 30
-      'half past ' + WORDS[@hour]
+      'half past ' + hour
     when 45
-      'quarter to ' + WORDS[(@hour + 1) % 12]
-    when 31..59
-      WORDS[60 - @minute] + ' minutes to ' + WORDS[(@hour + 1) % 12]
+      'quarter to ' + next_hour
+    when 31..39
+      'twenty ' + WORDS[@minute - 30] + ' minutes to ' + next_hour
+    when 40..58
+      WORDS[60 - @minute] + ' minutes to ' + next_hour
+    when 59
+      'one minute to ' + next_hour
     end
+  end
+
+  def minute
+    WORDS[@minute]
+  end
+
+  def hour
+    WORDS[@hour]
+  end
+
+  def next_hour
+    WORDS[@hour == 12 ? 1 : @hour + 1]
   end
 
   def parse(text)

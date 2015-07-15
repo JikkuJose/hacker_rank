@@ -9,8 +9,8 @@ class TestTimeInWords < Minitest::Test
     YAML::load(File.open(FIXTURE, 'r').read)
   end
 
-  samples.first(8).each_with_index do |(time, word), index|
-    define_method("test_sample_#{index}") do
+  samples.each_with_index do |(time, word), index|
+    define_method("test_sample_#{time.split(":").join}") do
       io = StringIO.new(time.split(":").join("\n"))
 
       assert_equal(
