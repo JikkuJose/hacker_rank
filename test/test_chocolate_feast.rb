@@ -1,16 +1,12 @@
 require_relative './test_helper'
-require 'chocolate_feast'
 
-class TestChocolateFeast < Minitest::Test
-  FIXTURE = './test/fixtures/chocolate_feast/samples.yml'
+CHALLENGE = __FILE__.match(/\/test_(?<challenge>.*).rb/)[:challenge]
+require CHALLENGE
 
-  def self.samples
-    YAML::load File.open(FIXTURE, 'r').read
+class TestChocolate < TestHackerRank
+  def self.challenge
+    CHALLENGE
   end
 
-  samples.each_with_index do |(input, output), index|
-    define_method("test_sample_#{index}") do
-      assert_equal output, ChocolateCalculator.new(input: input).chocolates
-    end
-  end
+  define_test_methods
 end

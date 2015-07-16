@@ -32,7 +32,7 @@ end
 
 class HackerRank
   def initialize(source: STDIN)
-    @input = source.readlines.drop(1)
+    @input = source.readlines.drop(1).map(&:strip)
   end
 
   def result
