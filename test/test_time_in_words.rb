@@ -1,6 +1,5 @@
 require_relative './test_helper'
 require 'time_in_words'
-require 'yaml'
 
 class TestTimeInWords < Minitest::Test
   FIXTURE = './test/fixtures/time_in_words/samples.yml'
