@@ -1,0 +1,21 @@
+module {{ camelized }}
+  class HackerRank
+    def initialize(source: STDIN)
+      @input = source.read
+    end
+  
+    def result
+    end
+  
+    def self.run
+      puts new.result
+    end
+  
+    def self.debug
+      puts new(source: DATA).result
+    end
+  end
+end
+
+# {{ camelized }}::HackerRank.run
+__END__

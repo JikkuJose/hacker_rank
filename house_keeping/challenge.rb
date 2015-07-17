@@ -35,7 +35,7 @@ class Challenge
   end
 
   def challenges
-    @challenges ||= YAML::load(File.open("./challenges.yml", 'r') { |f| f.read })
+    @challenges ||= self.class.challenges
   end
 
   def register
@@ -43,5 +43,9 @@ class Challenge
       f.write YAML::dump(@challenges << challenge)
     end
     puts "Added #{challenge} to challenges.yml"
+  end
+
+  def self.challenges
+    YAML::load(File.open("./challenges.yml", 'r') { |f| f.read })
   end
 end
