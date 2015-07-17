@@ -6,7 +6,9 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
 
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new({detailed_skip: false})
 
-challenges = YAML::load(File.open('./challenges.yml', 'r').read)
+specificity = ARGV.first
+challenges = YAML::load(File.open('./challenges.yml', 'r').read).grep(/#{specificity}/)
+fail "Sorry, no challenges matched for #{specificity}!" if challenges.empty?
 
 class TestHackerRank < Minitest::Test
   def self.challenge
