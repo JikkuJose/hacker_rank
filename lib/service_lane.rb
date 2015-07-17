@@ -1,42 +1,44 @@
-class ServiceLaneInspector
-  def initialize(width_array: text)
-    parse_width(width_array)
+module ServiceLane
+  class ServiceLaneInspector
+    def initialize(width_array: text)
+      parse_width(width_array)
+    end
+
+    def max_width(entry_exit: text)
+      parse_entry_exit(entry_exit)
+      @width[@entry..@exit].min
+    end
+
+    def parse_width(text)
+      @width = text.split.map(&:to_i)
+    end
+
+    def parse_entry_exit(text)
+      @entry, @exit = text.split.map(&:to_i)
+    end
   end
 
-  def max_width(entry_exit: text)
-    parse_entry_exit(entry_exit)
-    @width[@entry..@exit].min
-  end
+  class HackerRank
+    def initialize(source: STDIN)
+      @input = source.readlines.drop(1)
+    end
 
-  def parse_width(text)
-    @width = text.split.map(&:to_i)
-  end
+    def result
+      s = ServiceLaneInspector.new(width_array: @input.first)
+      @input.drop(1).map { |line| s.max_width(entry_exit: line) }.join("\n")
+    end
 
-  def parse_entry_exit(text)
-    @entry, @exit = text.split.map(&:to_i)
+    def self.run
+      puts new.result
+    end
+
+    def self.debug
+      puts new(source: DATA).result
+    end
   end
 end
 
-class HackerRank
-  def initialize(source: STDIN)
-    @input = source.readlines.drop(1)
-  end
-
-  def result
-    s = ServiceLaneInspector.new(width_array: @input.first)
-    @input.drop(1).map { |line| s.max_width(entry_exit: line) }.join("\n")
-  end
-
-  def self.run
-    puts new.result
-  end
-
-  def self.debug
-    puts new(source: DATA).result
-  end
-end
-
-# HackerRank.run
+# ServiceLane::HackerRank.run
 __END__
 8 5
 2 3 1 2 3 2 3 3

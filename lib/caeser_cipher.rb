@@ -1,42 +1,57 @@
-class CaeserCipher
-  def initialize(source: STDIN)
-    parse(source.read)
+module CaeserCipher
+  class Encryptor
+    def initialize(message: nil, shift: nil)
+      @message, @shift = message, shift
+    end
+
+    def cipher
+      @message.tr(
+        alphabets(shift: 0).join,
+        alphabets(shift: @shift).join
+      )
+    end
+
+    private
+
+    def alphabets(shift: 0)
+      small_caps.rotate(shift) + large_caps.rotate(shift)
+    end
+
+    def small_caps
+      ('a'..'z').to_a
+    end
+
+    def large_caps
+      small_caps.map(&:upcase)
+    end
   end
 
-  def cipher
-    @message.tr(
-      alphabets(shift: 0).join,
-      alphabets(shift: @shift).join
-    )
-  end
+  class HackerRank
+    def initialize(source: STDIN)
+      parse(source.read)
+    end
 
-  private
+    def parse(text)
+      @message = lines(text)[1]
+      @shift = lines(text).last.to_i
+    end
 
-  def alphabets(shift: 0)
-    small_caps.rotate(shift) + large_caps.rotate(shift)
-  end
+    def lines(text)
+      text.split("\n")
+    end
 
-  def small_caps
-    ('a'..'z').to_a
-  end
+    def result
+      Encryptor.new(message: @message, shift: @shift).cipher
+    end
 
-  def large_caps
-    small_caps.map(&:upcase)
-  end
+    def self.run
+      puts new.result
+    end
 
-  def parse(text)
-    @message = lines(text)[1]
-    @shift = lines(text).last.to_i
-  end
-
-  def lines(text)
-    text.split("\n")
+    def self.debug
+      puts new(source: DATA).result
+    end
   end
 end
 
-# puts CaeserCipher.new.cipher
-
-__END__
-11
-middle-Outz
-2
+# CaeserCipher::HackerRank.run

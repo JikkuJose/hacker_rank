@@ -6,6 +6,8 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
 
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new({detailed_skip: false})
 
+challenges = YAML::load(File.open('./challenges.yml', 'r').read)
+
 class TestHackerRank < Minitest::Test
   def self.challenge
     fail 'Should be redefined in subclass'
@@ -19,12 +21,18 @@ class TestHackerRank < Minitest::Test
     Dir.glob(fixture + '*').grep(/_input/).length
   end
 
+  def self.camelize(string)
+    string.scan(/[a-z]+/).map { |word| word.capitalize }.join
+  end
+
   def self.define_test_methods
+    test_klass = Object.const_get("#{camelize(challenge)}::HackerRank")
+
     samples.times do |index|
       define_method("test_sample_#{index}") do
         assert_equal(
           file(index, :output).read.strip,
-          HackerRank.new(source: file(index, :input)).result
+          test_klass.new(source: file(index, :input)).result
         )
       end
     end
@@ -36,3 +44,21 @@ class TestHackerRank < Minitest::Test
 end
 
 Minitest::Runnable.runnables.delete(TestHackerRank)
+
+puts "Challenges under test:"
+puts
+
+challenges.each_with_index do |library, index|
+  require library
+  puts "#{index + 1}. #{library}"
+end
+
+challenges.each do |challenge|
+  Class.new(TestHackerRank).class_eval do
+    define_singleton_method(:challenge) do
+      challenge
+    end
+
+    define_test_methods
+  end
+end
