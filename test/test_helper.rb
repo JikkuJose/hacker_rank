@@ -1,6 +1,7 @@
 require 'yaml'
 require 'minitest/autorun'
 require 'minitest/reporters'
+require_relative '../house_keeping/utilities.rb'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")
 
@@ -23,12 +24,8 @@ class TestHackerRank < Minitest::Test
     Dir.glob(fixture + '*').grep(/_input/).length
   end
 
-  def self.camelize(string)
-    string.scan(/[a-z]+/).map { |word| word.capitalize }.join
-  end
-
   def self.define_test_methods
-    test_klass = Object.const_get("#{camelize(challenge)}::HackerRank")
+    test_klass = Object.const_get("#{Utilities.camelize(challenge)}::HackerRank")
 
     samples.times do |index|
       define_method("test_sample_#{index}") do
@@ -56,7 +53,7 @@ challenges.each_with_index do |library, index|
 end
 
 challenges.each do |challenge|
-  Class.new(TestHackerRank).class_eval do
+  Object.const_set("Test#{Utilities.camelize(challenge)}", Class.new(TestHackerRank)).class_eval do
     define_singleton_method(:challenge) do
       challenge
     end
