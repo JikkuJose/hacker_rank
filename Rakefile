@@ -22,17 +22,19 @@ end
 
 desc "Add new challenge"
 task :add, :challenge, :number_of_test_cases do |t, args|
+  challenge = args[:challenge].gsub('-', '_')
+
   Challenge.new(
-    challenge: args[:challenge],
+    challenge: challenge,
     number_of_test_cases: args[:number_of_test_cases] || 1
   ).run
 
-  puts "Added file ./lib/#{args[:challenge]}.rb"
+  puts "Added file ./lib/#{challenge}.rb"
 
-  File.open("./lib/#{args[:challenge]}.rb", 'w') do |f|
+  File.open("./lib/#{challenge}.rb", 'w') do |f|
     f.write BoilerPlate.new(
       template: './house_keeping/boiler_plates/code.txt',
-      locals: {camelized: Utilities.camelize(args[:challenge])}
+      locals: {camelized: Utilities.camelize(challenge)}
     ).to_s
   end
 end
