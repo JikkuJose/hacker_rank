@@ -24,6 +24,7 @@ Repo holding my solutions of HackerRank problems.
 17. diagonal_difference
 18. plus_minus
 19. staircase
+20. manasa_and_stones
 ```
 
 ## Raketasks
