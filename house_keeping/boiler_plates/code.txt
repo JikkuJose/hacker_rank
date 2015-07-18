@@ -1,21 +1,28 @@
 module {{ camelized }}
+  
+
   class HackerRank
     def initialize(source: STDIN)
       @input = source.read
     end
-  
+
     def result
     end
-  
+
     def self.run
-      puts new.result
+      unless local_environment?
+        puts new.result
+      end
     end
-  
+
+    def self.local_environment?
+      ENV['UPSTART_JOB'].nil?
+    end
+
     def self.debug
       puts new(source: DATA).result
     end
   end
 end
 
-# {{ camelized }}::HackerRank.run
-__END__
+{{ camelized }}::HackerRank.run

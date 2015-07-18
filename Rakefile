@@ -31,7 +31,7 @@ task :add, :challenge, :number_of_test_cases do |t, args|
 
   File.open("./lib/#{args[:challenge]}.rb", 'w') do |f|
     f.write BoilerPlate.new(
-      template: './house_keeping/boiler_plates/code.txt', 
+      template: './house_keeping/boiler_plates/code.txt',
       locals: {camelized: Utilities.camelize(args[:challenge])}
     ).to_s
   end
