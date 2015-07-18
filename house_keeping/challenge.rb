@@ -1,5 +1,6 @@
 class Challenge
   attr_reader :challenge, :number_of_test_cases
+  README_LIST = /(?<=``` challenges)(?<list>.*?)(?=```)/m
 
   def initialize(challenge: nil, number_of_test_cases: 1)
     @challenge = challenge
@@ -39,10 +40,34 @@ class Challenge
   end
 
   def register
+    add_in_config
+    add_in_readme
+  end
+
+  def add_in_config
     File.open('./challenges.yml', 'w') do |f|
       f.write YAML::dump(@challenges << challenge)
     end
     puts "Added #{challenge} to challenges.yml"
+  end
+
+  def add_in_readme
+    old_file = File.open('./README.markdown', 'r') { |f| f.read }
+
+
+    new_file = old_file.gsub(README_LIST) do |m|
+      "\n#{self.class.challenge_list}\n"
+    end
+
+    File.open('./README.markdown', 'w') { |f| f.write new_file }
+
+    puts "Added #{challenge} to README.markdown"
+  end
+
+  def self.challenge_list
+    challenges.each_with_index
+      .map { |challenge, index| "#{index + 1}. #{challenge}" }
+      .join("\n")
   end
 
   def self.challenges
