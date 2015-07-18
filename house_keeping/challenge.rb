@@ -3,7 +3,7 @@ class Challenge
   README_LIST = /(?<=``` challenges)(?<list>.*?)(?=```)/m
 
   def initialize(challenge: nil, number_of_test_cases: 1)
-    @challenge = challenge
+    @challenge = challenge.gsub(/\-/, '_')
     @number_of_test_cases = number_of_test_cases.to_i
     valid?
   end
