@@ -25,6 +25,7 @@ Repo holding my solutions of HackerRank problems.
 18. plus_minus
 19. staircase
 20. manasa_and_stones
+21. acm_icpc_team
 ```
 
 ## Raketasks
