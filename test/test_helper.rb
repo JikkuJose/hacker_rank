@@ -30,7 +30,7 @@ class TestHackerRank < Minitest::Test
     samples.times do |index|
       define_method("test_sample_#{index}") do
         assert_equal(
-          file(index, :output).read.strip,
+          file(index, :output).read.chomp,
           test_klass.new(source: file(index, :input)).result
         )
       end
