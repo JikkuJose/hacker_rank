@@ -1,37 +1,34 @@
 module AcmIcpcTeam
   class Contestants
+    attr_reader :maximum_score, :number_of_max_teams
+
     def initialize(cvs: [])
       @cvs = cvs
+      @number_of_contestants = @cvs.length
+      @number_of_topics = @cvs.first.length
+      @maximum_score = 0
+      @number_of_max_teams = @number_of_contestants
+      calculate
     end
 
-    def team_ids
-      @team_ids ||= indicies
-        .product(indicies)
-        .map { |i| i.sort }
-        .sort
-        .uniq
-    end
+    def calculate
+      (0...@number_of_contestants).each do |i|
+        ((i + 1)...@number_of_contestants).each do |j|
+          s = score(i, j)
 
-    def indicies
-      @indicies ||= @cvs.length.times.to_a
-    end
-
-    def teams
-      @teams ||= team_ids.each_with_object({}) do |id, hash|
-        hash[id] = score(*id)
+          case
+          when @maximum_score < s
+            @maximum_score = s
+            @number_of_max_teams = 1
+          when @maximum_score == s
+            @number_of_max_teams += 1
+          end
+        end
       end
     end
 
-    def score(c1, c2)
-      (@cvs[c1].to_i(2) | @cvs[c2].to_i(2)).to_s(2).count('1')
-    end
-
-    def maximum_score
-      teams.values.max
-    end
-
-    def max_teams
-      teams.select { |id, score| score == maximum_score }
+    def score(i, j)
+      (@cvs[i].to_i(2) | @cvs[j].to_i(2)).to_s(2).count('1')
     end
   end
 
@@ -46,7 +43,7 @@ module AcmIcpcTeam
 
     def result
       c = Contestants.new(cvs: @cvs)
-      [c.maximum_score, c.max_teams.length].join("\n")
+      [c.maximum_score, c.number_of_max_teams].join("\n")
     end
 
     def self.run
