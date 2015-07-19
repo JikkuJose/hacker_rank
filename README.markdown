@@ -28,6 +28,7 @@ Repo holding my solutions of HackerRank problems.
 21. acm_icpc_team
 22. kaprekar_numbers
 23. taum_and_bday
+24. sherlock_and_the_beast
 ```
 
 ## Raketasks
