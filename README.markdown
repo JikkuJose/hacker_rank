@@ -27,6 +27,7 @@ Repo holding my solutions of HackerRank problems.
 20. manasa_and_stones
 21. acm_icpc_team
 22. kaprekar_numbers
+23. taum_and_bday
 ```
 
 ## Raketasks
