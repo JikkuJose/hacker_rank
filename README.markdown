@@ -30,6 +30,7 @@ Repo holding my solutions of HackerRank problems.
 23. taum_and_bday
 24. sherlock_and_the_beast
 25. find_digits
+26. angry_professor
 ```
 
 ## Raketasks
