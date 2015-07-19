@@ -31,6 +31,7 @@ Repo holding my solutions of HackerRank problems.
 24. sherlock_and_the_beast
 25. find_digits
 26. angry_professor
+27. utopian_tree
 ```
 
 ## Raketasks
