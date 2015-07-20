@@ -32,6 +32,7 @@ Repo holding my solutions of HackerRank problems.
 25. find_digits
 26. angry_professor
 27. utopian_tree
+28. string_similarity
 ```
 
 ## Raketasks
