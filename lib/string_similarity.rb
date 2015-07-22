@@ -3,49 +3,46 @@ module StringSimilarity
     def z
       @z = Array.new(length, 0)
       @z[0] = length
-      l = r = 0
+      left = right = 0
 
       (1...length).each do |k|
-        if k > r
+        if k > right
           @z[k] = length_of_longest_prefix(k)
           unless @z[k].zero?
-            l = k
-            r = l + @z[k] - 1
+            left = k
+            right = left + @z[k] - 1
           end
         else
-          beta = r - k + 1
-          z_prime = @z[k - l]
+          beta = right - k + 1
+          z_prime = @z[k - left]
 
           case
           when z_prime < beta
             @z[k] = z_prime
             unless z_prime.zero?
-              l = k
-              r = k + @z[k] - 1
+              left = k
+              right = k + @z[k] - 1
             end
           when z_prime > beta
             @z[k] = beta
-            l = k
+            left = k
           when z_prime == beta
-            start = beta
-            while self[start] == self[k + start]
-              start += 1
-            end
-            @z[k] = start
-            l = k
-            r = k + @z[k] - 1
+            @z[k] = length_of_longest_prefix(k, beta)
+            left = k
+            right = k + @z[k] - 1
           end
         end
       end
+
       @z
     end
 
-    def length_of_longest_prefix(index)
-      n = 0
-      while self[index + n] == self[n]
-        n += 1
+    def length_of_longest_prefix(index, initial_value = 0)
+      i = initial_value
+      while self[index + i] == self[i]
+        i += 1
       end
-      n
+      i
     end
   end
 
