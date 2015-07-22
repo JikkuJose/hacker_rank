@@ -8,8 +8,10 @@ module StringSimilarity
       (1...length).each do |k|
         if k > r
           @z[k] = length_of_longest_prefix(k)
-          l = k
-          r = l + @z[k] - 1
+          unless @z[k].zero?
+            l = k
+            r = l + @z[k] - 1
+          end
         else
           beta = r - k + 1
           z_prime = @z[k - l]
@@ -26,14 +28,12 @@ module StringSimilarity
             l = k
           when z_prime == beta
             start = beta
-            while @z[start] == @z[k + start]
+            while self[start] == self[k + start]
               start += 1
             end
             @z[k] = start
             l = k
             r = k + @z[k] - 1
-          else
-            p "NOTHING MATCHED"
           end
         end
       end
