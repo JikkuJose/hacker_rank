@@ -1,25 +1,54 @@
 module StringSimilarity
+  module ZAlgorithm
+    def z
+      @z = Array.new(length, 0)
+      @z[0] = length
+      l = r = 0
+
+      (1...length).each do |k|
+        if k <= r  # INSIDE Z BOX
+          if @z[k - l] <= r - k
+            j = 0
+            while self[k + j] == self[j] && j <= r - k + 1
+              j += 1
+            end
+            @z[k] = j
+
+            if j > 0
+              l = k
+              r = k + @z[k] - 1
+            end
+          else
+            @z[k] = r - k + 1
+            l = k
+            r = k + @z[k] - 1
+          end
+        else
+          n = 0
+          while k < length && self[k + n] == self[n]
+            n += 1
+          end
+          @z[k] = n
+
+          if n > 0
+            l = k
+            r = k + @z[k] - 1
+          end
+        end
+      end
+      @z
+    end
+  end
+
   class SimilarityChecker
     attr_reader :length, :string
 
     def initialize(string: "")
-      @string = string
-      @length = @string.length
+      @string = string.extend(ZAlgorithm)
     end
 
     def similarity
-      total = length
-
-      length.times do |index|
-        (index..length).each_with_index do |j, k|
-          if string[j] != string[k]
-            total += k
-            break
-          end
-        end
-      end
-
-      total
+      string.z.reduce(:+)
     end
   end
 
