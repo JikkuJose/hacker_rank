@@ -6,37 +6,46 @@ module StringSimilarity
       l = r = 0
 
       (1...length).each do |k|
-        if k <= r  # INSIDE Z BOX
-          if @z[k - l] <= r - k
-            j = 0
-            while self[k + j] == self[j] && j <= r - k + 1
-              j += 1
-            end
-            @z[k] = j
+        if k > r
+          @z[k] = length_of_longest_prefix(k)
+          l = k
+          r = l + @z[k] - 1
+        else
+          beta = r - k + 1
+          z_prime = @z[k - l]
 
-            if j > 0
+          case
+          when z_prime < beta
+            @z[k] = z_prime
+            unless z_prime.zero?
               l = k
               r = k + @z[k] - 1
             end
+          when z_prime > beta
+            @z[k] = beta
+            l = k
+          when z_prime == beta
+            start = beta
+            while @z[start] == @z[k + start]
+              start += 1
+            end
+            @z[k] = start
+            l = k
+            r = k + @z[k] - 1
           else
-            @z[k] = r - k + 1
-            l = k
-            r = k + @z[k] - 1
-          end
-        else
-          n = 0
-          while k < length && self[k + n] == self[n]
-            n += 1
-          end
-          @z[k] = n
-
-          if n > 0
-            l = k
-            r = k + @z[k] - 1
+            p "NOTHING MATCHED"
           end
         end
       end
       @z
+    end
+
+    def length_of_longest_prefix(index)
+      n = 0
+      while self[index + n] == self[n]
+        n += 1
+      end
+      n
     end
   end
 
