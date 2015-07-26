@@ -33,6 +33,7 @@ Repo holding my solutions of HackerRank problems.
 26. angry_professor
 27. utopian_tree
 28. string_similarity
+29. funny_string
 ```
 
 ## Raketasks
