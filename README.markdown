@@ -37,6 +37,7 @@ Repo holding my solutions of HackerRank problems.
 30. game_of_thrones
 31. alternating_characters
 32. pangrams
+33. gem_stones
 ```
 
 ## Raketasks
