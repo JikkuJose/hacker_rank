@@ -34,6 +34,7 @@ Repo holding my solutions of HackerRank problems.
 27. utopian_tree
 28. string_similarity
 29. funny_string
+30. game_of_thrones
 ```
 
 ## Raketasks
