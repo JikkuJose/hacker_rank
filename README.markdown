@@ -39,6 +39,7 @@ Repo holding my solutions of HackerRank problems.
 32. pangrams
 33. gem_stones
 34. make_it_anagram
+35. two_strings
 ```
 
 ## Raketasks
